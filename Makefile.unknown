@@ -1,0 +1,27 @@
+# Definir variables
+CC = gcc
+CFLAGS = -Wall -g
+LDFLAGS = -L. -lconsultas -lmysqlclient -I/usr/include/mariadb -I./includes
+
+# Archivos fuente
+SRC = main.c productor.c servidor.c consultas.c
+# Archivos objeto (código compilado)
+OBJ = $(SRC:.c=.o)
+# Nombre del ejecutable
+TARGET = mosquito
+
+# Regla principal para generar el ejecutable
+$(TARGET): $(OBJ)
+	$(CC) $(OBJ) -o $(TARGET) $(LDFLAGS)
+
+# Regla para compilar los archivos fuente a objetos
+%.o: %.c
+	$(CC) $(CFLAGS) -c $<
+
+# Regla para limpiar los archivos generados
+clean:
+	rm -f *.o $(TARGET)
+
+# Regla para ejecutar el servidor
+run: $(TARGET)
+	./$(TARGET) servidor

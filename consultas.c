@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <mariadb/mysql.h>
 #include "consultas.h"
 
-// Función para establecer la conexión a la base de datos
 ConexionDB* conexion_bd() {
     ConexionDB *conexion = (ConexionDB *) malloc(sizeof(ConexionDB));
     if (conexion == NULL) {
@@ -29,7 +29,6 @@ ConexionDB* conexion_bd() {
     return conexion;
 }
 
-// Función para cerrar la conexión a la base de datos
 void cerrar_conexion(ConexionDB *conexion) {
     if (conexion != NULL) {
         mysql_close(conexion->conn);
@@ -38,7 +37,6 @@ void cerrar_conexion(ConexionDB *conexion) {
     }
 }
 
-// Función para insertar datos en la tabla
 int insertar_datos(ConexionDB *conexion, const char *nombre, int edad, int matricula, int grado, const char *materia) {
     if (conexion == NULL || conexion->conn == NULL) {
         fprintf(stderr, "Conexión no válida.\n");
